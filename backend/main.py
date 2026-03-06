@@ -249,7 +249,7 @@ def get_clases():
         cur.execute(
             """
             SELECT clase_id, nombre
-            FROM public.clases
+            FROM public.clase
             WHERE clase_id <> 'Pendiente'
             ORDER BY nombre ASC;
             """
