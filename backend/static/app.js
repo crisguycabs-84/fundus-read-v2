@@ -269,6 +269,7 @@ async function pageNaRead() {
   const optionsRoot = qs("classOptions");
   const form = qs("diagnosisForm");
   const btnNext = qs("btnNext");
+  const localError = qs("localError");
 
   const me = await ensureAuthOrRedirect();
   if (!me) return;
@@ -276,6 +277,7 @@ async function pageNaRead() {
   if (root) root.innerHTML = "";
   if (optionsRoot) optionsRoot.innerHTML = "";
   if (btnNext) btnNext.disabled = false;
+  if (localError) localError.textContent = "";
 
   const nextResp = await api("/reading/next-na");
   if (!nextResp.res.ok) {
@@ -310,6 +312,7 @@ async function pageNaRead() {
   document.querySelectorAll('input[name="diagnostico_clase_id"]').forEach((el) => {
     el.addEventListener("change", () => {
       setMsg("");
+      if (localError) localError.textContent = "";
     });
   });
 
@@ -319,12 +322,13 @@ async function pageNaRead() {
 
       const selected = document.querySelector('input[name="diagnostico_clase_id"]:checked');
       if (!selected) {
-        setMsg("Debes seleccionar una clase diagnóstica antes de continuar");
+        if (localError) localError.textContent = "Debes seleccionar una clase diagnóstica antes de continuar";
         return;
       }
 
       if (btnNext) btnNext.disabled = true;
       setMsg("");
+      if (localError) localError.textContent = "";
 
       const submitResp = await api("/reading/submit-na", {
         method: "POST",
