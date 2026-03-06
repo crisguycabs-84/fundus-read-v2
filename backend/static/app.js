@@ -296,7 +296,7 @@ async function pageNaRead() {
     meta.textContent = `Usuario cc=${me.cc} • lectura_id=${lectura_id} • img_id=${img_id} • posición=${posicion} / 100`;
   }
 
-  addImageBlock("Fundus", url);
+  addImageBlock("", url);
 
   const clsResp = await api("/clases");
   if (!clsResp.res.ok) {
