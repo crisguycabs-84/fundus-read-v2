@@ -275,6 +275,7 @@ async function pageNaRead() {
 
   if (root) root.innerHTML = "";
   if (optionsRoot) optionsRoot.innerHTML = "";
+  if (btnNext) btnNext.disabled = true;
 
   const nextResp = await api("/reading/next-na");
   if (!nextResp.res.ok) {
@@ -308,7 +309,10 @@ async function pageNaRead() {
 
   document.querySelectorAll('input[name="diagnostico_clase_id"]').forEach((el) => {
     el.addEventListener("change", () => {
-      btnNext.disabled = !document.querySelector('input[name="diagnostico_clase_id"]:checked');
+      setMsg("");
+      if (btnNext) {
+        btnNext.disabled = !document.querySelector('input[name="diagnostico_clase_id"]:checked');
+      }
     });
   });
 
@@ -318,11 +322,12 @@ async function pageNaRead() {
 
       const selected = document.querySelector('input[name="diagnostico_clase_id"]:checked');
       if (!selected) {
-        setMsg("Debes seleccionar una clase diagnóstica");
+        setMsg("Debes seleccionar una clase diagnóstica antes de continuar");
         return;
       }
 
-      btnNext.disabled = true;
+      if (btnNext) btnNext.disabled = true;
+      setMsg("");
 
       const submitResp = await api("/reading/submit-na", {
         method: "POST",
@@ -334,7 +339,7 @@ async function pageNaRead() {
       });
 
       if (!submitResp.res.ok) {
-        btnNext.disabled = false;
+        if (btnNext) btnNext.disabled = false;
         setMsg("Error /reading/submit-na\nHTTP " + submitResp.res.status + "\n" + (submitResp.body?.detail || JSON.stringify(submitResp.body)));
         return;
       }
