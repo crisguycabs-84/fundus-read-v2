@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Fundus-Read | Selección de modo</title>
+    <link rel="stylesheet" href="/static/styles.css" />
+    <script defer src="/static/app.js"></script>
+  </head>
+  <body data-page="mode">
+    <main class="container">
+      <header class="header">
+        <h1 class="title">Selecciona modo de lectura</h1>
+        <p class="subtitle" id="whoami">Verificando sesión...</p>
+      </header>
+
+      <section class="card">
+        <h2 class="card-title">Modo</h2>
+        <p class="card-text">Elige cómo deseas realizar la lectura.</p>
+
+        <div class="grid">
+          <button class="btn btn-secondary" id="btnNoAsistido" type="button">
+            Modo NO asistido
+            <span class="btn-hint">Solo imagen fundus</span>
+          </button>
+
+          <button class="btn btn-primary" id="btnAsistido" type="button">
+            Modo asistido
+            <span class="btn-hint">Fundus + Grad-CAM</span>
+          </button>
+        </div>
+
+        <div class="msg" id="msg"></div>
+        <div class="row">
+          <button class="btn btn-ghost" id="btnLogout" type="button">
+            Cerrar sesión
+          </button>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

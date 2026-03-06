@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Fundus-Read | Lectura</title>
+    <link rel="stylesheet" href="/static/styles.css" />
+    <script defer src="/static/app.js"></script>
+  </head>
+  <body data-page="read">
+    <main class="container wide">
+      <header class="header header-row">
+        <div>
+          <h1 class="title">Lectura</h1>
+          <p class="subtitle" id="meta">Cargando...</p>
+        </div>
+
+        <div class="header-actions">
+          <a class="btn btn-ghost" href="/mode">Cambiar modo</a>
+          <button class="btn btn-secondary" id="btnReload" type="button">
+            Recargar
+          </button>
+        </div>
+      </header>
+
+      <section class="card">
+        <h2 class="card-title">Imágenes</h2>
+        <p class="card-text">
+          Se muestran en vertical: Fundus y, si aplica, Grad-CAM (ensemble + 3
+          modelos).
+        </p>
+
+        <div class="msg" id="msg"></div>
+
+        <div id="images" class="images"></div>
+      </section>
+    </main>
+  </body>
+</html>

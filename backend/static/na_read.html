@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Fundus-Read | Lectura no asistida</title>
+    <link rel="stylesheet" href="/static/styles.css" />
+    <script defer src="/static/app.js"></script>
+  </head>
+  <body data-page="na_read">
+    <main class="container wide">
+      <header class="header header-row">
+        <div>
+          <h1 class="title">Lectura no asistida</h1>
+          <p class="subtitle" id="meta">Cargando lectura...</p>
+        </div>
+
+        <div class="header-actions">
+          <a class="btn btn-ghost" href="/mode">Cambiar modo</a>
+        </div>
+      </header>
+
+      <section class="card">
+        <h2 class="card-title">Imagen fundus</h2>
+        <div class="msg" id="msg"></div>
+        <div id="images" class="images"></div>
+      </section>
+
+      <section class="card" style="margin-top: 16px">
+        <h2 class="card-title">Diagnóstico</h2>
+        <form id="diagnosisForm">
+          <div id="classOptions" class="form"></div>
+          <div class="row">
+            <button class="btn btn-primary" id="btnNext" type="submit" disabled>
+              Siguiente
+            </button>
+          </div>
+        </form>
+      </section>
+    </main>
+  </body>
+</html>

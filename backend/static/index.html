@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Fundus-Read | Login</title>
+    <link rel="stylesheet" href="/static/styles.css" />
+    <script defer src="/static/app.js"></script>
+  </head>
+  <body data-page="index">
+    <main class="container">
+      <header class="header">
+        <h1 class="title">Fundus-Read</h1>
+        <p class="subtitle">
+          Sistema de lecturas para Fundación Ver Sin Fronteras (FVSF)
+        </p>
+      </header>
+
+      <section class="card">
+        <h2 class="card-title">Bienvenido</h2>
+        <p class="card-text">Ingresa tus credenciales para iniciar sesión.</p>
+
+        <div class="form">
+          <label class="label" for="cc">CC</label>
+          <input
+            class="input"
+            id="cc"
+            type="text"
+            autocomplete="username"
+            inputmode="numeric"
+            placeholder="Cédula"
+          />
+
+          <label class="label" for="password">Password</label>
+          <input
+            class="input"
+            id="password"
+            type="password"
+            autocomplete="current-password"
+            placeholder="Contraseña"
+          />
+
+          <button class="btn btn-primary" id="btnLogin" type="button">
+            Entrar
+          </button>
+          <div class="msg" id="msg"></div>
+        </div>
+      </section>
+
+      <footer class="footer">
+        <small>Backend: FastAPI • Auth: cookie HttpOnly</small>
+      </footer>
+    </main>
+  </body>
+</html>
