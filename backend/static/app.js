@@ -275,7 +275,7 @@ async function pageNaRead() {
 
   if (root) root.innerHTML = "";
   if (optionsRoot) optionsRoot.innerHTML = "";
-  if (btnNext) btnNext.disabled = true;
+  if (btnNext) btnNext.disabled = false;
 
   const nextResp = await api("/reading/next-na");
   if (!nextResp.res.ok) {
@@ -291,7 +291,7 @@ async function pageNaRead() {
   const { lectura_id, img_id, posicion, url } = nextResp.body;
 
   if (meta) {
-    meta.textContent = `Usuario cc=${me.cc} • lectura_id=${lectura_id} • img_id=${img_id} • posición=${posicion}`;
+    meta.textContent = `Usuario cc=${me.cc} • lectura_id=${lectura_id} • img_id=${img_id} • posición=${posicion} / 100`;
   }
 
   addImageBlock("Fundus", url);
@@ -310,9 +310,6 @@ async function pageNaRead() {
   document.querySelectorAll('input[name="diagnostico_clase_id"]').forEach((el) => {
     el.addEventListener("change", () => {
       setMsg("");
-      if (btnNext) {
-        btnNext.disabled = !document.querySelector('input[name="diagnostico_clase_id"]:checked');
-      }
     });
   });
 
