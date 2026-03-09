@@ -499,3 +499,15 @@ body[data-page="index"] {
     padding: 20px 16px 28px;
   }
 }
+
+/* =========================
+   FOOTER REFINEMENT
+   ========================= */
+
+.footer-small {
+  font-size: 0.85rem;
+}
+
+.footer-strong {
+  font-weight: 600;
+}
