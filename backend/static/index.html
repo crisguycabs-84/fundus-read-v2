@@ -3,53 +3,78 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>Fundus-Read | Login</title>
+    <title>Fundus-Read</title>
     <link rel="stylesheet" href="/static/styles.css" />
     <script defer src="/static/app.js"></script>
   </head>
   <body data-page="index">
     <main class="container">
-      <header class="header">
-        <h1 class="title">Fundus-Read</h1>
-        <p class="subtitle">
-          Sistema de lecturas para Fundación Ver Sin Fronteras (FVSF)
-        </p>
+      <header class="landing-header">
+        <div class="brand-row">
+          <div class="brand-logo brand-logo-left">
+            <img
+              src="https://ymwootpjvmsrwkaprqdz.supabase.co/storage/v1/object/public/logos/udi.png"
+              alt="Logo UDI"
+              class="institution-logo institution-logo-udi"
+            />
+          </div>
+
+          <div class="brand-logo brand-logo-right">
+            <img
+              src="https://ymwootpjvmsrwkaprqdz.supabase.co/storage/v1/object/public/logos/fvsf.jpg"
+              alt="Logo Fundación Ver Sin Fronteras"
+              class="institution-logo institution-logo-fvsf"
+            />
+          </div>
+        </div>
+
+        <div class="hero-block">
+          <h1 class="title">Fundus-Read</h1>
+          <p class="subtitle">
+            Sistema de lecturas para Fundación Ver Sin Fronteras (FVSF)
+          </p>
+        </div>
       </header>
 
-      <section class="card">
+      <section class="card login-card">
         <h2 class="card-title">Bienvenido</h2>
-        <p class="card-text">Ingresa tus credenciales para iniciar sesión.</p>
+        <p class="muted">Ingresa tus credenciales para iniciar sesión.</p>
 
-        <div class="form">
-          <label class="label" for="cc">CC</label>
+        <form id="loginForm" class="form">
+          <label for="cc">CC</label>
           <input
-            class="input"
             id="cc"
+            name="cc"
             type="text"
-            autocomplete="username"
-            inputmode="numeric"
             placeholder="Cédula"
+            autocomplete="username"
+            required
           />
 
-          <label class="label" for="password">Password</label>
+          <label for="password">Password</label>
           <input
-            class="input"
             id="password"
+            name="password"
             type="password"
-            autocomplete="current-password"
             placeholder="Contraseña"
+            autocomplete="current-password"
+            required
           />
 
-          <button class="btn btn-primary" id="btnLogin" type="button">
-            Entrar
-          </button>
-          <div class="msg" id="msg"></div>
-        </div>
-      </section>
+          <button class="btn btn-primary" type="submit">Entrar</button>
+        </form>
 
-      <footer class="footer">
-        <small>Backend: FastAPI • Auth: cookie HttpOnly</small>
-      </footer>
+        <div id="msg" class="msg" aria-live="polite"></div>
+      </section>
     </main>
+
+    <div class="landing-footer">
+      <div class="landing-footer-inner">
+        <p>Desarrollado por Ph.D. Crisóstomo Barajas</p>
+        <p>Programa de Ingeniería de Sistemas · UDI</p>
+        <p>Sistema de apoyo a lectura asistida de imágenes fundus</p>
+        <p>Copyright © 2026 · Bucaramanga, Colombia</p>
+      </div>
+    </div>
   </body>
 </html>
