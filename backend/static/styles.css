@@ -453,3 +453,17 @@ body[data-page="index"] {
     font-size: 1.5rem;
   }
 }
+
+.logo-box {
+  height: 72px;
+  width: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logo-box img {
+  max-height: 100%;
+  max-width: 100%;
+  object-fit: contain;
+}
