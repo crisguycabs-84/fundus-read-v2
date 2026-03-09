@@ -293,7 +293,7 @@ async function pageNaRead() {
   const { lectura_id, img_id, posicion, url } = nextResp.body;
 
   if (meta) {
-    meta.textContent = `Usuario cc=${me.cc} • lectura_id=${lectura_id} • img_id=${img_id} • posición=${posicion} / 100`;
+    meta.textContent = `Usuario cc = ${me.cc} • Progreso = ${posicion} / 100`;
   }
 
   addImageBlock("", url);
