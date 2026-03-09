@@ -149,7 +149,7 @@ async function pageMode() {
   });
 
   if (btn1) btn1.addEventListener("click", () => {
-    window.location.href = "/read?modo_id=1";
+    window.location.href = "/a_read";
   });
 
   if (btnLogout) btnLogout.addEventListener("click", async () => {
@@ -234,6 +234,7 @@ document.addEventListener("DOMContentLoaded", () => {
   else if (page === "mode") pageMode();
   else if (page === "read") pageRead();
   else if (page === "na_read") pageNaRead();
+  else if (page === "a_read") pageARead();
 });
 
 function addRadioOption(name, value, label) {
@@ -348,4 +349,149 @@ async function pageNaRead() {
       window.location.reload();
     });
   }
+}
+
+async function pageARead() {
+  setMsg("");
+
+  const meta = qs("meta");
+  const optionsRoot = qs("classOptions");
+  const form = qs("diagnosisForm");
+  const btnNext = qs("btnNext");
+  const localError = qs("localError");
+
+  const me = await ensureAuthOrRedirect();
+  if (!me) return;
+
+  clearContainer("topImages");
+  clearContainer("bottomGradcams");
+  if (optionsRoot) optionsRoot.innerHTML = "";
+  if (btnNext) btnNext.disabled = true;
+  if (localError) localError.textContent = "";
+
+  const nextResp = await api("/reading/next-a");
+  if (!nextResp.res.ok) {
+    setMsg("Error /reading/next-a\nHTTP " + nextResp.res.status + "\n" + (nextResp.body?.detail || JSON.stringify(nextResp.body)));
+    return;
+  }
+
+  if (!nextResp.body || !nextResp.body.found) {
+    setMsg(nextResp.body?.message || "No hay lecturas pendientes");
+    return;
+  }
+
+  const { lectura_id, img_id, posicion, url } = nextResp.body;
+
+  if (meta) {
+    meta.textContent = `Usuario cc=${me.cc} • lectura_id=${lectura_id} • img_id=${img_id} • posición=${posicion}`;
+  }
+
+  // Fundus
+  addImageBlockTo("topImages", "Fundus", url);
+
+  // Grad-CAMs
+  const gcResp = await api(`/gradcam/${img_id}`);
+  if (!gcResp.res.ok) {
+    setMsg("Error /gradcam/{img_id}\nHTTP " + gcResp.res.status + "\n" + (gcResp.body?.detail || JSON.stringify(gcResp.body)));
+    return;
+  }
+
+  const gradcams = (gcResp.body && gcResp.body.gradcams) ? gcResp.body.gradcams : [];
+  const byModel = new Map();
+  for (const g of gradcams) {
+    byModel.set(Number(g.modelo_id), g);
+  }
+
+  // arriba: ensemble
+  const ensemble = byModel.get(0);
+  if (ensemble) {
+    addImageBlockTo("topImages", "Grad-CAM Ensemble", ensemble.url);
+  }
+
+  // abajo: 1,2,3
+  const bottomOrder = [1, 2, 3];
+  for (const mid of bottomOrder) {
+    const g = byModel.get(mid);
+    if (!g) continue;
+    addImageBlockTo("bottomGradcams", modelLabel(mid), g.url);
+  }
+
+  // clases
+  const clsResp = await api("/clases");
+  if (!clsResp.res.ok) {
+    setMsg("Error /clases\nHTTP " + clsResp.res.status + "\n" + (clsResp.body?.detail || JSON.stringify(clsResp.body)));
+    return;
+  }
+
+  const clases = (clsResp.body && clsResp.body.clases) ? clsResp.body.clases : [];
+  for (const c of clases) {
+    addRadioOption("diagnostico_clase_id", c.clase_id, c.nombre);
+  }
+
+  document.querySelectorAll('input[name="diagnostico_clase_id"]').forEach((el) => {
+    el.addEventListener("change", () => {
+      setMsg("");
+      if (localError) localError.textContent = "";
+      if (btnNext) btnNext.disabled = false;
+    });
+  });
+
+  if (form) {
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const selected = document.querySelector('input[name="diagnostico_clase_id"]:checked');
+      if (!selected) {
+        if (localError) localError.textContent = "Debes seleccionar una clase diagnóstica antes de continuar";
+        return;
+      }
+
+      if (btnNext) btnNext.disabled = true;
+      setMsg("");
+      if (localError) localError.textContent = "";
+
+      const submitResp = await api("/reading/submit-a", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          lectura_id: lectura_id,
+          diagnostico_clase_id: selected.value
+        }),
+      });
+
+      if (!submitResp.res.ok) {
+        if (btnNext) btnNext.disabled = false;
+        setMsg("Error /reading/submit-a\nHTTP " + submitResp.res.status + "\n" + (submitResp.body?.detail || JSON.stringify(submitResp.body)));
+        return;
+      }
+
+      window.location.reload();
+    });
+  }
+}
+
+function addImageBlockTo(containerId, title, url) {
+  const root = qs(containerId);
+  if (!root) return;
+
+  const block = document.createElement("div");
+  block.className = "img-block";
+
+  const h = document.createElement("div");
+  h.className = "img-title";
+  h.textContent = title;
+
+  const img = document.createElement("img");
+  img.className = "img";
+  img.src = url;
+  img.alt = title;
+
+  block.appendChild(h);
+  block.appendChild(img);
+  root.appendChild(block);
+}
+
+function clearContainer(id) {
+  const el = qs(id);
+  if (el) el.innerHTML = "";
 }
