@@ -383,11 +383,11 @@ async function pageARead() {
   const { lectura_id, img_id, posicion, url } = nextResp.body;
 
   if (meta) {
-    meta.textContent = `Usuario cc=${me.cc} • lectura_id=${lectura_id} • img_id=${img_id} • posición=${posicion}`;
+    meta.textContent = `Usuario cc = ${me.cc} • Progreso = ${posicion} / 100`;
   }
 
   // Fundus
-  addImageBlockTo("topImages", "Fundus", url);
+  addImageBlockTo("topImages", "", url);
 
   // Grad-CAMs
   const gcResp = await api(`/gradcam/${img_id}`);
@@ -405,7 +405,7 @@ async function pageARead() {
   // arriba: ensemble
   const ensemble = byModel.get(0);
   if (ensemble) {
-    addImageBlockTo("topImages", "Grad-CAM Ensemble", ensemble.url);
+    addImageBlockTo("topImages", "", ensemble.url);
   }
 
   // abajo: 1,2,3
@@ -413,7 +413,7 @@ async function pageARead() {
   for (const mid of bottomOrder) {
     const g = byModel.get(mid);
     if (!g) continue;
-    addImageBlockTo("bottomGradcams", modelLabel(mid), g.url);
+    addImageBlockTo("bottomGradcams", "", g.url);
   }
 
   // clases
@@ -477,16 +477,18 @@ function addImageBlockTo(containerId, title, url) {
   const block = document.createElement("div");
   block.className = "img-block";
 
-  const h = document.createElement("div");
-  h.className = "img-title";
-  h.textContent = title;
+  if (title) {
+    const h = document.createElement("div");
+    h.className = "img-title";
+    h.textContent = title;
+    block.appendChild(h);
+  }
 
   const img = document.createElement("img");
   img.className = "img";
   img.src = url;
-  img.alt = title;
+  img.alt = title || "";
 
-  block.appendChild(h);
   block.appendChild(img);
   root.appendChild(block);
 }
