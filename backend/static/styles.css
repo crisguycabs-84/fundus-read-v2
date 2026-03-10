@@ -525,3 +525,7 @@ body[data-page="na_read"] .img-block {
 body[data-page="na_read"] .img {
   border: none;
 }
+
+body[data-page="a_read"] .img {
+  border: none;
+}
