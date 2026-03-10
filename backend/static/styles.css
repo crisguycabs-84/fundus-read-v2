@@ -511,3 +511,8 @@ body[data-page="index"] {
 .footer-strong {
   font-weight: 600;
 }
+
+#images > .img-block {
+  grid-column: 1 / -1;
+  justify-self: center;
+}
