@@ -521,3 +521,7 @@ body[data-page="na_read"] .img-block {
   max-width: 420px;
   margin: 0 auto;
 }
+
+body[data-page="na_read"] .img {
+  border: none;
+}
