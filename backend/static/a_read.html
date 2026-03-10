@@ -63,23 +63,26 @@
             <a class="btn btn-ghost" href="/mode">Cambiar modo</a>
           </div>
         </div>
+        <div class="header header-row section-spaced">
+          <div class="section-spaced">
+            <p class="card-text section-spaced">
+              Escoja la clase diagnóstica que considere adecuada basándose en la
+              imagen fundus presentada y los mapas de calor (Grad-CAM)
+              presentados. Puede apoyarse en el Grad-CAM del ensamble o en los
+              Grad-CAM individuales para cada modelo de IA.
+            </p>
+            <p class="card-text section-spaced">
+              Los Grad-CAM representan zonas o artefactos de especial atención
+              que el sistema de apoyo al diagnóstico considera importantes para
+              soportar la clasificación.
+            </p>
+          </div>
+        </div>
       </header>
 
       <section class="card">
         <h2 class="card-title">Imagen fundus + Grad-CAM ensemble</h2>
-        <p class="card-text section-spaced">
-          Escoja la clase diagnóstica que considere adecuada basándose en la
-          imagen fundus presentada y los mapas de calor (Grad-CAM) presentados.
-          Puede apoyarse en el Grad-CAM del ensamble o en los Grad-CAM
-          individuales para cada modelo de IA.
-        </p>
-        <p class="card-text section-spaced">
-          Los Grad-CAM representan zonas o artefactos de especial atención que
-          el sistema de apoyo al diagnóstico considera importantes para soportar
-          la clasificación.
-        </p>
         <div class="msg" id="msg"></div>
-
         <div id="topImages" class="images-row-2"></div>
       </section>
 
