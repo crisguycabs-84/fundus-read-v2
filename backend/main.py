@@ -97,6 +97,109 @@ def me(access_token: str | None = Cookie(default=None)):
         
 from fastapi import Query
 
+@app.get("/reading/progress")
+def reading_progress(access_token: str | None = Cookie(default=None)):
+    if not access_token:
+        raise HTTPException(status_code=401, detail="No autenticado")
+
+    try:
+        payload = jwt.decode(access_token, JWT_SECRET, algorithms=[JWT_ALG])
+        user_id = payload.get("sub")
+        if not user_id:
+            raise HTTPException(status_code=401, detail="Token inválido")
+    except JWTError:
+        raise HTTPException(status_code=401, detail="Token inválido")
+
+    try:
+        conn = psycopg2.connect(os.environ["DATABASE_URL"])
+        cur = conn.cursor()
+
+        cur.execute(
+            """
+            SELECT
+                modo_id,
+                COUNT(*) AS total,
+                COUNT(*) FILTER (WHERE done IS NOT NULL) AS completadas,
+                COUNT(*) FILTER (WHERE done IS NULL) AS pendientes
+            FROM public.lecturas
+            WHERE user_id = %s
+            GROUP BY modo_id
+            ORDER BY modo_id;
+            """,
+            (user_id,)
+        )
+        rows = cur.fetchall()
+
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+    finally:
+        if "cur" in locals():
+            cur.close()
+        if "conn" in locals():
+            conn.close()
+
+    progress = {
+        "no_asistido": {
+            "modo_id": 0,
+            "total": 0,
+            "completadas": 0,
+            "pendientes": 0,
+            "porcentaje": 0.0
+        },
+        "asistido": {
+            "modo_id": 1,
+            "total": 0,
+            "completadas": 0,
+            "pendientes": 0,
+            "porcentaje": 0.0
+        }
+    }
+
+    for modo_id, total, completadas, pendientes in rows:
+        porcentaje = round((completadas / total) * 100, 2) if total > 0 else 0.0
+
+        if modo_id == 0:
+            progress["no_asistido"] = {
+                "modo_id": 0,
+                "total": total,
+                "completadas": completadas,
+                "pendientes": pendientes,
+                "porcentaje": porcentaje
+            }
+        elif modo_id == 1:
+            progress["asistido"] = {
+                "modo_id": 1,
+                "total": total,
+                "completadas": completadas,
+                "pendientes": pendientes,
+                "porcentaje": porcentaje
+            }
+
+    total_global = (
+        progress["no_asistido"]["total"] +
+        progress["asistido"]["total"]
+    )
+    completadas_global = (
+        progress["no_asistido"]["completadas"] +
+        progress["asistido"]["completadas"]
+    )
+    pendientes_global = (
+        progress["no_asistido"]["pendientes"] +
+        progress["asistido"]["pendientes"]
+    )
+    porcentaje_global = round((completadas_global / total_global) * 100, 2) if total_global > 0 else 0.0
+
+    return {
+        "found": True,
+        "progress": progress,
+        "global": {
+            "total": total_global,
+            "completadas": completadas_global,
+            "pendientes": pendientes_global,
+            "porcentaje": porcentaje_global
+        }
+    }
+
 @app.get("/reading/next")
 def reading_next(
     modo_id: int = Query(..., description="0=no asistido, 1=asistido"),

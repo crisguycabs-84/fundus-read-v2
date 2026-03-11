@@ -131,6 +131,61 @@ async function pageIndex() {
   });
 }
 
+function setProgressCard(textId, barId, completadas, total, porcentaje) {
+  const textEl = qs(textId);
+  const barEl = qs(barId);
+
+  if (textEl) {
+    textEl.textContent = `${completadas} / ${total} completadas (${porcentaje}%)`;
+  }
+
+  if (barEl) {
+    barEl.style.width = `${porcentaje}%`;
+  }
+}
+
+async function loadReadingProgress() {
+  const resp = await api("/reading/progress");
+
+  if (!resp.res.ok) {
+    throw new Error(
+      "Error /reading/progress\nHTTP " +
+      resp.res.status +
+      "\n" +
+      (resp.body?.detail || JSON.stringify(resp.body))
+    );
+  }
+
+  const data = resp.body;
+  const na = data.progress?.no_asistido;
+  const a = data.progress?.asistido;
+  const g = data.global;
+
+  setProgressCard(
+    "progressNaText",
+    "progressNaBar",
+    na?.completadas ?? 0,
+    na?.total ?? 0,
+    na?.porcentaje ?? 0
+  );
+
+  setProgressCard(
+    "progressAText",
+    "progressABar",
+    a?.completadas ?? 0,
+    a?.total ?? 0,
+    a?.porcentaje ?? 0
+  );
+
+  setProgressCard(
+    "progressGlobalText",
+    "progressGlobalBar",
+    g?.completadas ?? 0,
+    g?.total ?? 0,
+    g?.porcentaje ?? 0
+  );
+}
+
 async function pageMode() {
   setMsg("");
 
@@ -143,6 +198,12 @@ async function pageMode() {
   if (!me) return;
 
   if (who) who.textContent = `Lector: ${me.cc}`;
+
+  try {
+    await loadReadingProgress();
+  } catch (err) {
+    setMsg(String(err.message || err));
+  }
 
   if (btn0) btn0.addEventListener("click", () => {
     window.location.href = "/na_read";

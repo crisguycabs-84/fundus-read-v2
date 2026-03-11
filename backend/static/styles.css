@@ -529,3 +529,59 @@ body[data-page="na_read"] .img {
 body[data-page="a_read"] .img {
   border: none;
 }
+
+.progress-panel {
+  margin-bottom: 20px;
+}
+
+.progress-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.progress-card {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 14px 16px;
+  background: #ffffff;
+}
+
+.progress-label {
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: var(--text);
+}
+
+.progress-numbers {
+  font-size: 14px;
+  color: var(--muted);
+  margin-bottom: 10px;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 10px;
+  background: #e9eef5;
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  border-radius: 999px;
+  transition: width 0.25s ease;
+}
+
+.progress-fill-na {
+  background: #94a3b8;
+}
+
+.progress-fill-a {
+  background: var(--primary);
+}
+
+.progress-fill-global {
+  background: #0f766e;
+}
