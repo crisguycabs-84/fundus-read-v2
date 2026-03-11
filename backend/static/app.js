@@ -190,6 +190,8 @@ async function pageMode() {
   setMsg("");
 
   const who = qs("whoami");
+  const progressTitle = qs("progressTitle");
+
   const btn0 = qs("btnNoAsistido");
   const btn1 = qs("btnAsistido");
   const btnLogout = qs("btnLogout");
@@ -197,7 +199,15 @@ async function pageMode() {
   const me = await ensureAuthOrRedirect();
   if (!me) return;
 
-  if (who) who.textContent = `Lector: ${me.cc}`;
+  /* reutilizamos el mismo cc */
+
+  if (who) {
+    who.textContent = `Lector: ${me.cc}`;
+  }
+
+  if (progressTitle) {
+    progressTitle.textContent = `Progreso del lector ${me.cc}`;
+  }
 
   try {
     await loadReadingProgress();
@@ -205,18 +215,24 @@ async function pageMode() {
     setMsg(String(err.message || err));
   }
 
-  if (btn0) btn0.addEventListener("click", () => {
-    window.location.href = "/na_read";
-  });
+  if (btn0) {
+    btn0.addEventListener("click", () => {
+      window.location.href = "/na_read";
+    });
+  }
 
-  if (btn1) btn1.addEventListener("click", () => {
-    window.location.href = "/a_read";
-  });
+  if (btn1) {
+    btn1.addEventListener("click", () => {
+      window.location.href = "/a_read";
+    });
+  }
 
-  if (btnLogout) btnLogout.addEventListener("click", async () => {
-    await api("/auth/logout", { method: "POST" });
-    window.location.href = "/";
-  });
+  if (btnLogout) {
+    btnLogout.addEventListener("click", async () => {
+      await api("/auth/logout", { method: "POST" });
+      window.location.href = "/";
+    });
+  }
 }
 
 async function pageRead() {
