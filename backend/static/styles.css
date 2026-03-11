@@ -80,6 +80,11 @@ body {
   font-size: 28px;
 }
 
+.card-titleh3 {
+  margin: 0 0 8px;
+  font-size: 18px;
+}
+
 .card-text {
   margin: 0 0 14px;
   color: var(--muted);
