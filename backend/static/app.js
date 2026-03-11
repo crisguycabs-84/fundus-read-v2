@@ -142,7 +142,7 @@ async function pageMode() {
   const me = await ensureAuthOrRedirect();
   if (!me) return;
 
-  if (who) who.textContent = `Sesión: cc = ${me.cc} • rol = ${me.role}`;
+  if (who) who.textContent = `Lector: ${me.cc}`;
 
   if (btn0) btn0.addEventListener("click", () => {
     window.location.href = "/na_read";
