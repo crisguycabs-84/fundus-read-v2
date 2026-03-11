@@ -40,7 +40,9 @@
         </div>
       </header>
 
-      <p class="subtitle section-spaced" id="whoami">Verificando sesión...</p>
+      <p class="subtitle section-spaced" id="whoami">
+        Verificando sesión...<br />
+      </p>
       <section class="card">
         <p class="card-text section-spaced">
           Bienvenidos a Fundus-Read, un aplicativo para apoyar las actividades
@@ -48,7 +50,7 @@
         </p>
         <br />
         <br />
-        <h2 class="title">Selecciona modo de lectura</h2>
+        <h2 class="title">Selección de modo de lectura</h2>
         <p class="card-text section-spaced">
           Seleccione la modalidad con la que realizará la evaluación diagnóstica
           de las imágenes fundus asignadas.
@@ -58,18 +60,19 @@
           lectura.
         </p>
         <p class="card-text section-spaced">
-          En total se deben realizar 100 lecturas por cada modo.
+          En total se deben realizar 100 lecturas aleatorias por cada modo.
         </p>
 
         <div class="grid">
           <div class="card">
             <h2 class="card-title">Modo no asistido</h2>
             <p class="card-text">
-              Realice la lectura únicamente a partir de la imagen fundus, sin
-              apoyo visual del sistema de apoyo al diagnóstico.
+              Durante una lectura en modo no asistido solo tendrá disponible la
+              imagen fundus, sin apoyo visual del sistema de apoyo al
+              diagnóstico o realimentación.
             </p>
             <button class="btn btn-secondary" id="btnNoAsistido" type="button">
-              Iniciar modo no asistido
+              Realizar lecturas en modo no asistido
               <span class="btn-hint">Solo imagen fundus</span>
             </button>
           </div>
@@ -77,12 +80,12 @@
           <div class="card">
             <h2 class="card-title">Modo asistido</h2>
             <p class="card-text">
-              Realice la lectura con apoyo de la imagen fundus y las
-              visualizaciones Grad-CAM generadas por el sistema de apoyo al
-              diagnóstico.
+              El modo asistido presenta en pantalla Grad-CAMs diseñados para
+              realzar zonas de interés de la imagen fundus. Puede usar el
+              Grad-CAM del ensamble, o de cada modelo individual
             </p>
             <button class="btn btn-primary" id="btnAsistido" type="button">
-              Iniciar modo asistido
+              Realizar lecturas en modo asistido
               <span class="btn-hint">Fundus + Grad-CAM</span>
             </button>
           </div>
@@ -91,16 +94,6 @@
         <div id="msg" class="msg" aria-live="polite"></div>
 
         <div class="row">
-          <p class="card-text section-spaced">
-            Puede consultar el acuerdo de participación del estudio en el
-            siguiente
-            <a
-              href="https://drive.google.com/file/d/1lEoTsx0297e5NRCUyF0YkyRe71R7VT1p/view?usp=sharing"
-              target="_blank"
-            >
-              enlace </a
-            >.
-          </p>
           <button class="btn btn-ghost" id="btnLogout" type="button">
             Cerrar sesión
           </button>
@@ -117,7 +110,14 @@
 
         <p>Programa de Ingeniería de Sistemas · UDI</p>
         <p>Fundación Ver Sin Fronteras</p>
-
+        <p>
+          <a
+            href="https://drive.google.com/file/d/1lEoTsx0297e5NRCUyF0YkyRe71R7VT1p/view?usp=sharing"
+            target="_blank"
+          >
+            Acuerdo de participación </a
+          >.
+        </p>
         <p class="footer-strong">© 2026 · Bucaramanga, Colombia</p>
       </div>
     </div>
